@@ -1,19 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title }}</title>
-    <link type="text/css" rel="stylesheet" href="/static/css/h2_home/bash.css">
     {% block heads %}{% endblock %}
+    <link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/static/css/h2_home/bash.css">
 </head>
 <body>
-<dev>
 
-    <a href="#"><img class="logo" src="/static/images/logo/logo.jpg" alt="测试背景"></a>
-    <a href="#" class="a_top">首页</a>
-    <a href="#" class="a_top">个人信息</a>
-    <a href="#" class="a_top">我们的故事</a>
-</dev>
+<div role="navigation">
+    <ul class="nav nav-tabs nav-justified">
+        {#    <li role="presentation" class="active"><a href="#"><img class="logo" src="/static/images/logo/logo.jpg" alt="测试背景"></a></li>#}
+        <li role="presentation"><a class="jc" href="#">首页</a></li>
+        <li role="presentation"><a class="jc" href="#">个人信息</a></li>
+        <li role="presentation"><a class="jc" href="#">我们的故事</a></li>
+    </ul>
+</div>
+<div></div>
+
 {% block bodys %}{% endblock %}
+<script src="/static/js/jquery-3.3.1.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+<style>
+    .jc{
+        font-weight: bold;
+        font-size: 25px;
+    }
+    body {
+    background: url("/static/images/background/583556cec175b.jpg") no-repeat;
+    background-size:cover;
+    height: 100%;
+}
+</style>
 </body>
 </html>
