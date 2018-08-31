@@ -14,26 +14,34 @@
 <div role="navigation">
     <ul class="nav nav-tabs nav-justified">
         {#    <li role="presentation" class="active"><a href="#"><img class="logo" src="/static/images/logo/logo.jpg" alt="测试背景"></a></li>#}
-        <li role="presentation"><a class="jc" href="#">首页</a></li>
-        <li role="presentation"><a class="jc" href="#">个人信息</a></li>
-        <li role="presentation"><a class="jc" href="#">我们的故事</a></li>
+        <li role="presentation"><a class="jc" href="{% url "index" %}"><span class="glyphicon glyphicon-home"
+                                                                             aria-hidden="false"></span>首页</a></li>
+        <li role="presentation"><a class="jc" href="#"><span class="glyphicon glyphicon-user"
+                                                             aria-hidden="false"></span> 个人信息</a></li>
+        <li role="presentation"><a class="jc" href="#"><span class="glyphicon glyphicon-th-large"
+                                                             aria-hidden="false"></span>我们的故事</a></li>
     </ul>
 </div>
-<div></div>
-
-{% block bodys %}{% endblock %}
+<div class="back">
+    {% block bodys %}{% endblock %}
+</div>
 <script src="/static/js/jquery-3.3.1.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <style>
-    .jc{
+    .jc {
+        color: red;
         font-weight: bold;
         font-size: 25px;
     }
+
+    div ul li {
+        background-color: #adadad;
+    }
+
     body {
-    background: url("/static/images/background/583556cec175b.jpg") no-repeat;
-    background-size:cover;
-    height: 100%;
-}
+        background-color: #f0ad4e;
+        height: 100%;
+    }
 </style>
 </body>
 </html>
