@@ -25,10 +25,11 @@ def login(request):
 
 def home(request):
     user_info = request.COOKIES
-    user_name = user_info.get("name", None).encode("latin-1").decode("utf-8")
+    user_name = user_info.get("uid", None)
     user_id = user_info.get("user", None)
     if not all([user_id, user_name]):
-        return HttpResponse("请求失败，<a href='http://127.0.0.1:8000'>点击这里返回首页</a>")
+        # return HttpResponse("请求失败，<a href='http://127.0.0.1:8000'>点击这里返回首页</a>")
+        return redirect('/landing')
     user = UserInfo.objects.get(name=user_name, id=user_id)
     context = {
         "title": '%s的小世界' % user.name,
@@ -43,3 +44,14 @@ def home(request):
         "back": "back%d.jpg" % random.randint(1, 20)
     }
     return render(request, 'h2_home/home.html', context)
+
+
+def landing(request):
+    context = {
+        "title":"登陆"
+    }
+    return render(request,'h2_home/landing.html',context)
+
+
+def register(request):
+    return HttpResponse("注册页面")

@@ -9,24 +9,35 @@
     <link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/static/css/h2_home/bash.css">
 </head>
-<body>
+<body id="body">
 
 <div role="navigation">
     <ul class="nav nav-tabs nav-justified">
         {#    <li role="presentation" class="active"><a href="#"><img class="logo" src="/static/images/logo/logo.jpg" alt="测试背景"></a></li>#}
         <li role="presentation"><a class="jc" href="{% url "index" %}"><span class="glyphicon glyphicon-home"
                                                                              aria-hidden="false"></span>首页</a></li>
-        <li role="presentation"><a class="jc" href="#"><span class="glyphicon glyphicon-user"
-                                                             aria-hidden="false"></span> 个人信息</a></li>
+        <li role="presentation"><a class="jc" href="{% url "home" %}"><span class="glyphicon glyphicon-user"
+                                                                            aria-hidden="false"></span> 个人信息</a></li>
         <li role="presentation"><a class="jc" href="#"><span class="glyphicon glyphicon-th-large"
                                                              aria-hidden="false"></span>我们的故事</a></li>
     </ul>
 </div>
+
 <div class="back">
+{#    <button type="button" onclick="back()">按钮</button>#}
+    <p onclick="back()">切换背景</p>
+{#    <audio src="/static/mp3/haikuotiankong.mp3" autoplay="autoplay" loop="loop" preload="auto">不支持播放器</audio>#}
     {% block bodys %}{% endblock %}
 </div>
 <script src="/static/js/jquery-3.3.1.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
+<script>
+    function back() {
+        var num = Math.ceil(Math.random() * 20);
+        document.getElementsByClassName('back')[0].style.backgroundImage = 'url' + "(/static/images/background/back" + num + ".jpg)";
+        {#document.getElementById(body)[0].style.backgroundImage ="/static/images/background/back"+num+".jpg";#}
+    }
+</script>
 <style>
     .jc {
         color: red;
