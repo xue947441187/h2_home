@@ -34,9 +34,9 @@
 <script>
     function back() {
         var num = Math.ceil(Math.random() * 20);
-        document.getElementsByClassName('back')[0].style.backgroundImage = 'url' + "(/static/images/background/back" + num + ".jpg)";
-        {#document.getElementById(body)[0].style.backgroundImage ="/static/images/background/back"+num+".jpg";#}
+        document.getElementById('body').style.background = 'url' + "(/static/images/background/back" + num + ".jpg)";
     }
+    setInterval(back,10000)
 </script>
 <style>
     .jc {

@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
+from django.views.generic.base import View
+
 from h2_home.models import UserInfo
 import random
 
@@ -16,10 +18,10 @@ def login(request):
     context = {
         "title": "登陆/注册"
     }
-    response = render(request,'h2_home/login.html',context)
+    response = render(request, 'h2_home/login.html', context)
     name = "薛新岗".encode("utf-8").decode("latin-1")
-    response.set_cookie("name",name)
-    response.set_cookie("user","201553080210")
+    response.set_cookie("name", name)
+    response.set_cookie("user", "201553080210")
     return response
 
 
@@ -47,11 +49,29 @@ def home(request):
 
 
 def landing(request):
+    user = request.POST
     context = {
-        "title":"登陆"
+        "title": "登陆"
     }
-    return render(request,'h2_home/landing.html',context)
+    return render(request, 'h2_home/landing.html', context)
 
 
 def register(request):
-    return HttpResponse("注册页面")
+    context = {
+        "title": "注册页面"
+    }
+    return render(request, 'h2_home/register.html', context)
+
+
+class SqlDB(View):
+    def get(self, request):
+        return HttpResponse("get结果")
+
+    def post(self, request):
+        return HttpResponse("post结果")
+
+    def delete(self, request):
+        return HttpResponse("delete结果")
+
+    def put(self, request):
+        return HttpResponse("put结果")
