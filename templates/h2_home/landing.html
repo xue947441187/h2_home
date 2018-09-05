@@ -10,7 +10,6 @@
             border: #0f0f0f 1px solid;
             text-align: center;
         }
-
         .form-sm {
             display: inline-block;
         }
@@ -34,16 +33,25 @@
         </div>
         <div><p class="ax">用户名错误请重新输入</p></div>
         <div class="form-group">
-            <button type="submit" class="btn btn-default form-sm">登陆</button>
-            <button type="submit" class="btn btn-default form-sm">注册</button>
+            <button type="submit" class="btn btn-default form-sm" onclick="land()">登陆</button>
+            <button type="reset" class="btn btn-default form-sm" onclick="regi()">注册</button>
         </div>
     </form>
-
+    <span></span>
     <script>
         function land() {
-            var email = $("#useremail").val(),
-                password = $("#userpassword").val();
-            $.get()
+            var username = $("#useremail").val(),
+                userpassword = $("#userpassword").val();
+            $.post("/landing",{"username":username,"userpassword":userpassword},function (data) {
+                if ( data.error == 0 ) {
+                    window.location.href = "{% url "home" %}";
+                } else {
+                    alert('账号或密码输入错误，请重新输入');
+                }
+            });
+        }
+        function regi() {
+            window.location.href ="{% url "register" %}";
         }
     </script>
 {% endblock %}

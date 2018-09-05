@@ -14,22 +14,108 @@
 {% endblock %}
 {% block bodys %}
     <form action="" class="form-xp">
-    <div class="form-group">
-        <label for="username">用户名</label>
-        <input type="text" class="form-control" id="username" placeholder="用户名">
-    </div>
-    <div class="form-group">
-        <label for="useremail">邮箱</label>
-        <input type="email" class="form-control" id="useremail" placeholder="邮箱">
-    </div>
-    <div class="form-group">
-        <label for="userpassword">密码</label>
-        <input type="password" class="form-control" id="userpassword" placeholder="输入密码">
-    </div>
-    <div class="form-group">
-        <label for="userrepassword">重新输入密码</label>
-        <input type="password" class="form-control" id="userrepassword" placeholder="重新输入密码">
-    </div>
-    <button>注册</button>
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" class="form-control" id="username" placeholder="用户名" onblur="fname()">
+            <p style="color: red;" id="name-p"></p>
+        </div>
+        <div class="form-group">
+            <label for="useremail">邮箱</label>
+            <input type="email" class="form-control" id="useremail" placeholder="邮箱" onblur="femail()">
+            <p style="color: red;" id="email-p"></p>
+        </div>
+        <div class="form-group">
+            <label for="userpassword">密码</label>
+            <input type="password" class="form-control" id="userpassword" placeholder="输入密码" onblur="fpwd()">
+            <p style="color: red;" id="pwd-p"></p>
+        </div>
+        <div class="form-group">
+            <label for="reuserpassword">重新输入密码</label>
+            <input type="password" class="form-control" id="reuserpassword" placeholder="重新输入密码" onblur="frepwd()">
+            <p style="color: red;" id="repwd-p"></p>
+        </div>
+        <button type="submit" onclick="regiser()">注册</button>
     </form>
+
+    <script type="text/javascript">
+        function fname() {
+            var username = $("#username").val();
+            if (username == "") {
+                $("#name-p").text("请输入内容");
+                return;
+            } else if (username.length >= 20 || username.length <= 0) {
+                $("#name-p").text("用户名长度大于0小于20");
+                return;
+            } else {
+                $("#name-p").text("");
+                return;
+            }
+
+        }
+
+        function femail() {
+            var email_re = /(\s|\d)*@(163|qq)\.com/g;
+            var email = $("#useremail").val();
+            {#alert(email.match(email_re))#}
+            if (email == "") {
+                $("#email-p").text("请输入内容");
+                return
+            } else if (!email.match(email_re)) {
+                $("#email-p").text("请使用163或者qq邮箱");
+                return;
+            } else {
+                $("#email-p").text("");
+                return;
+            }
+        }
+
+        function fpwd() {
+            var pwd_re = /(\d|\s|_){6,20}/;
+            var pwd = $("#userpassword").val();
+            if (pwd == '') {
+                $("#pwd-p").text("请输入密码");
+                return;
+            } else if (!pwd.match(pwd_re)) {
+                $("#pwd-p").text("请输入字母、数字、_");
+                return;
+            } else if (pwd.length >= 20 && pwd.length < 6) {
+                $("#pwd-p").text("请输入6到20位");
+                return;
+            }else {
+                $("#pwd-p").text('')
+            }
+        }
+
+        function frepwd() {
+            var pwd_re = /(\d|\s|_){6,20}/;
+            var rpwd = $("#reuserpassword").val();
+            var pwd = $("#userpassword").val();
+            if (rpwd == '') {
+                $("#repwd-p").text("请输入密码");
+                return;
+            } else if (!rpwd.match(pwd_re)) {
+                $("#repwd-p").text("请输入字母、数字、_");
+                return;
+            } else if (rpwd.length >= 20 && rpwd.length < 6) {
+                $("#repwd-p").text("请输入6到20位");
+                return;
+            } else if (pwd != rpwd) {
+                $("#repwd-p").text("重复输入错误，请重新输入");
+                return;
+            }else {
+                $("#repwd-p").text("")
+            }
+        }
+
+        function regiser() {
+            fname();
+            femail();
+            fpwd();
+            frepwd();
+
+
+
+        }
+
+    </script>
 {% endblock %}

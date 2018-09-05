@@ -1,6 +1,9 @@
-from django.shortcuts import render, redirect, HttpResponse
-from django.views.generic.base import View
+import re
 
+from django.http import JsonResponse,HttpResponse
+from django.shortcuts import render, redirect
+from django.views.generic.base import View
+import uuid
 from h2_home.models import UserInfo
 import random
 
@@ -27,12 +30,13 @@ def login(request):
 
 def home(request):
     user_info = request.COOKIES
+
     user_name = user_info.get("uid", None)
     user_id = user_info.get("user", None)
     if not all([user_id, user_name]):
         # return HttpResponse("请求失败，<a href='http://127.0.0.1:8000'>点击这里返回首页</a>")
         return redirect('/landing')
-    user = UserInfo.objects.get(name=user_name, id=user_id)
+    user = UserInfo.objects.get(id=user_id)
     context = {
         "title": '%s的小世界' % user.name,
         "name": user.name,
@@ -49,17 +53,45 @@ def home(request):
 
 
 def landing(request):
+
     user = request.POST
+    name = user.get("username")
+    password = user.get("userpassword")
     context = {
         "title": "登陆"
     }
-    return render(request, 'h2_home/landing.html', context)
+    if not all([name,password]):
+        return render(request,'h2_home/landing.html',context)
+    re_au=re.match(r"^.*?@(163|qq)\.com$",name)
+
+    if re_au:
+        try:
+            ret = UserInfo.objects.get(email=name)
+        except Exception as e:
+            print(e)
+    else:
+        if len(name) == 12:
+            try:
+                ret = UserInfo.objects.get(id=int(name))
+            except Exception as e:
+                print(e)
+    if not (ret.passwrod == password):
+        context["error"] = "密码错误"
+        return render(request,"h2_home/landing.html",context)
+    uid = uuid.uuid5(uuid.NAMESPACE_DNS,name)
+    context["error"] = 0
+    response = JsonResponse(context)
+    response.set_cookie("uid",uid)
+    response.set_cookie('user',ret.id)
+    return response
 
 
 def register(request):
+
     context = {
         "title": "注册页面"
     }
+
     return render(request, 'h2_home/register.html', context)
 
 
