@@ -1,6 +1,6 @@
 import re
 
-from django.http import JsonResponse,HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic.base import View
 import uuid
@@ -9,6 +9,9 @@ import random
 
 
 # Create your views here.
+from untitled.settings import redis_db
+
+
 def index(request):
     context = {
         "title": '首页',
@@ -34,36 +37,37 @@ def home(request):
     user_name = user_info.get("uid", None)
     user_id = user_info.get("user", None)
     if not all([user_id, user_name]):
-        # return HttpResponse("请求失败，<a href='http://127.0.0.1:8000'>点击这里返回首页</a>")
-        return redirect('/landing')
+        pass
+        # # return HttpResponse("请求失败，<a href='http://127.0.0.1:8000'>点击这里返回首页</a>")
+        # return redirect('/landing')
     user = UserInfo.objects.get(id=user_id)
     context = {
         "title": '%s的小世界' % user.name,
-        "name": user.name,
-        "id": user.id,
-        "age": user.age,
-        "gender": user.gender,
-        "height": user.height,
-        "email": user.email,
-        "phone": user.phone,
-        "qq": user.qq_howl,
-        "back": "back%d.jpg" % random.randint(1, 20)
+        "back": "back%d.jpg" % random.randint(1, 20),
+        "users": {
+                  "name": user.name,
+                  "id": user.id,
+                  "age": user.age,
+                  "gender": user.gender,
+                  "height": user.height,
+                  "email": user.email,
+                  "phone": user.phone,
+                  "qq": user.qq_howl, },
+
     }
     return render(request, 'h2_home/home.html', context)
 
 
 def landing(request):
-
     user = request.POST
     name = user.get("username")
     password = user.get("userpassword")
     context = {
         "title": "登陆"
     }
-    if not all([name,password]):
-        return render(request,'h2_home/landing.html',context)
-    re_au=re.match(r"^.*?@(163|qq)\.com$",name)
-
+    if not all([name, password]):
+        return render(request, 'h2_home/landing.html', context)
+    re_au = re.match(r"^.*?@(163|qq)\.com$", name)
     if re_au:
         try:
             ret = UserInfo.objects.get(email=name)
@@ -77,17 +81,18 @@ def landing(request):
                 print(e)
     if not (ret.passwrod == password):
         context["error"] = "密码错误"
-        return render(request,"h2_home/landing.html",context)
-    uid = uuid.uuid5(uuid.NAMESPACE_DNS,name)
-    context["error"] = 0
+        return render(request, "h2_home/landing.html", context)
+    uid = uuid.uuid5(uuid.NAMESPACE_DNS, name)
+    context["err"] = 0
+    context["next"] = request.session["user_next"] if request.session["user_next"] is not None else "/"
     response = JsonResponse(context)
-    response.set_cookie("uid",uid)
-    response.set_cookie('user',ret.id)
+    redis_db.set(name, uid,ex=1*24*60*60)
+    response.set_cookie("uid", uid)
+    response.set_cookie('user', ret.id)
     return response
 
 
 def register(request):
-
     context = {
         "title": "注册页面"
     }
@@ -100,7 +105,21 @@ class SqlDB(View):
         return HttpResponse("get结果")
 
     def post(self, request):
-        return HttpResponse("post结果")
+        info = request.POST
+        tag = info.get("tag")
+        context = {}
+        if tag == 0:
+            """查询注册信息看用户名是否被注册"""
+            try:
+                user = UserInfo.objects.get(name=info.get("username"), email=info.get("email"))
+            except Exception as e:
+                user = 0
+            if user == 0:
+                context["err"] = 0
+                return JsonResponse(context)
+            else:
+                context["err"] = 1
+                return JsonResponse(context)
 
     def delete(self, request):
         return HttpResponse("delete结果")

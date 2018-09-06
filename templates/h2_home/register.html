@@ -38,17 +38,23 @@
     </form>
 
     <script type="text/javascript">
+        {#var rpwd = $("#reuserpassword").val();#}
+        {#var pwd = $("#userpassword").val();#}
+        {#var username = $("#username").val();#}
+        {#var email = $("#useremail").val();#}
+
+
         function fname() {
             var username = $("#username").val();
             if (username == "") {
                 $("#name-p").text("请输入内容");
-                return;
+                return 0;
             } else if (username.length >= 20 || username.length <= 0) {
                 $("#name-p").text("用户名长度大于0小于20");
-                return;
+                return 0;
             } else {
                 $("#name-p").text("");
-                return;
+                return 1;
             }
 
         }
@@ -59,13 +65,13 @@
             {#alert(email.match(email_re))#}
             if (email == "") {
                 $("#email-p").text("请输入内容");
-                return
+                return 0;
             } else if (!email.match(email_re)) {
                 $("#email-p").text("请使用163或者qq邮箱");
-                return;
+                return 0;
             } else {
                 $("#email-p").text("");
-                return;
+                return 1;
             }
         }
 
@@ -74,15 +80,16 @@
             var pwd = $("#userpassword").val();
             if (pwd == '') {
                 $("#pwd-p").text("请输入密码");
-                return;
+                return 0;
             } else if (!pwd.match(pwd_re)) {
                 $("#pwd-p").text("请输入字母、数字、_");
-                return;
+                return 0;
             } else if (pwd.length >= 20 && pwd.length < 6) {
                 $("#pwd-p").text("请输入6到20位");
-                return;
-            }else {
+                return 0;
+            } else {
                 $("#pwd-p").text('')
+                return 1;
             }
         }
 
@@ -92,27 +99,38 @@
             var pwd = $("#userpassword").val();
             if (rpwd == '') {
                 $("#repwd-p").text("请输入密码");
-                return;
+                return 0;
             } else if (!rpwd.match(pwd_re)) {
                 $("#repwd-p").text("请输入字母、数字、_");
-                return;
+                return 0;
             } else if (rpwd.length >= 20 && rpwd.length < 6) {
                 $("#repwd-p").text("请输入6到20位");
-                return;
+                return 0;
             } else if (pwd != rpwd) {
                 $("#repwd-p").text("重复输入错误，请重新输入");
-                return;
-            }else {
+                return 0;
+            } else {
                 $("#repwd-p").text("")
+                return 1;
             }
         }
 
         function regiser() {
-            fname();
-            femail();
-            fpwd();
-            frepwd();
-
+            var n1 = fname();
+            var n2 = femail();
+            var n3 = fpwd();
+            var n4 = frepwd();
+            var pwd = $("#userpassword").val();
+            var username = $("#username").val();
+            var email = $("#useremail").val();
+            if ((n1 + n2 + n3 + n4) == 4) {
+                $.post("{% url "db" %}", {"username": username, "userpwd": pwd, "useremail": email},function(data){
+                    alert(data.err)
+                });
+            } else {
+                alert("输入错误请重新输入");
+                return 0;
+            }
 
 
         }

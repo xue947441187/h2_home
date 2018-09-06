@@ -1,6 +1,11 @@
 {% extends "bash.html" %}
 
 {% block bodys %}
+    <ul>
+    {% for key,value in users.items %}
+        <li>{{ key }}:{{ value }}</li>
+    {% endfor %}
+    </ul>
     <style>
         .back {
             border-top: 0;

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import redis
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +28,20 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
+"""---------------------------- redis -----------------------------------"""
+redis_db = redis.Redis(host='localhost', port=6379, db=1)
+SESSION_ENGINE = 'redis_sessions.session'
+SESSION_REDIS_HOST = 'localhost'
+SESSION_REDIS_PORT = 6379
+SESSION_REDIS_DB = 0
+# SESSION_REDIS_PASSWORD = 'password'
+# SESSION_REDIS_PREFIX = 'session'
 
+# If you prefer domain socket connection, you can just add this line instead of SESSION_REDIS_HOST and SESSION_REDIS_PORT.
+
+# SESSION_REDIS_UNIX_DOMAIN_SOCKET_PATH = '/var/run/redis/redis.sock'
+
+"""----------------------------------------------------------------------"""
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,14 +56,15 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "utils.UserAuthMiddleware.AuthMiddleware"
 ]
-
-NEED_LOGIN = ["home",]
+"""--------------------------------- 中间件认证-------------------------------------------------"""
+NEED_LOGIN = ["/home", ]
+"""---------------------------------------------------------------------------------------------"""
 ROOT_URLCONF = 'untitled.urls'
 
 TEMPLATES = [
