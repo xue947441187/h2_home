@@ -13,15 +13,10 @@ class AuthMiddleware(MiddlewareMixin):
     def process_request(self, request):
         # print(request.path)
         if request.path in settings.NEED_LOGIN:
-            userinfo = request.COOKIES
-            uid = userinfo.get("uid", None)
-            uname = userinfo.get("user", None)
-            if all([uid, uname]):
-                if redis_db.get(uname) is not None:
-                    print(redis_db.get(uname))
-                    print("**********************************************")
-                else:
-                    return redirect("/landing")
-            else:
-                request.session["user_next"] = request.path
-                return redirect("/landing")
+            info = request.COOKIES
+            uid = info.get("uid",None)
+            uname = info.get("user",None)
+            if not all([uid,uname]) and redis_db.get(uname) == uid:
+                request.session["next"] = request.path
+                return HttpResponseRedirect("/landing",request)
+

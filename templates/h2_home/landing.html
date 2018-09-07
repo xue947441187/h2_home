@@ -33,7 +33,7 @@
         </div>
         <div><p class="ax">用户名错误请重新输入</p></div>
         <div class="form-group">
-            <button type="submit" class="btn btn-default form-sm" onclick="land()">登陆</button>
+            <button class="btn btn-default form-sm" onclick="land()">登陆</button>
             <button type="reset" class="btn btn-default form-sm" onclick="regi()">注册</button>
         </div>
     </form>
@@ -43,8 +43,9 @@
             var username = $("#useremail").val(),
                 userpassword = $("#userpassword").val();
             $.post("/landing",{"username":username,"userpassword":userpassword},function (data) {
-                if ( data.err == 0 ) {
+                if ( data.error == 0 ) {
                     window.location.href = data.next;
+                    alert($.cookie("user"))
                 } else {
                     alert('账号或密码输入错误，请重新输入');
                 }

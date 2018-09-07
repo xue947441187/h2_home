@@ -1,12 +1,16 @@
 {% extends "bash.html" %}
-
-{% block bodys %}
-    <ul>
-    {% for key,value in users.items %}
-        <li>{{ key }}:{{ value }}</li>
-    {% endfor %}
-    </ul>
+{% block heads %}
     <style>
+        .left_l {
+            border-right: 1px black solid;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
         .back {
             border-top: 0;
             background: url("/static/images/background/{{ back }}");
@@ -14,4 +18,19 @@
             height: 1000px;
         }
     </style>
+{% endblock %}
+
+
+{% block bodys %}
+    <div class="col-md-2 left_l"></div>
+    <div class="col-md-10">
+        <ul>
+            {% for key,value in users.items %}
+                <li>{{ key }}:{{ value }}</li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+
 {% endblock %}

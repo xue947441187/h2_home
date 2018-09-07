@@ -67,26 +67,29 @@ def landing(request):
     }
     if not all([name, password]):
         return render(request, 'h2_home/landing.html', context)
-    re_au = re.match(r"^.*?@(163|qq)\.com$", name)
-    if re_au:
-        try:
+    re_au = re.match(r'\d{12}',name)
+    try:
+        if re_au:
+            ret = UserInfo.objects.get(id=name)
+        else:
             ret = UserInfo.objects.get(email=name)
-        except Exception as e:
-            print(e)
-    else:
-        if len(name) == 12:
-            try:
-                ret = UserInfo.objects.get(id=int(name))
-            except Exception as e:
-                print(e)
+    except:
+        context["error"] = 1
+        return JsonResponse(context)
     if not (ret.passwrod == password):
-        context["error"] = "密码错误"
-        return render(request, "h2_home/landing.html", context)
+        context["error"] = 1
+        return JsonResponse(context)
     uid = uuid.uuid5(uuid.NAMESPACE_DNS, name)
-    context["err"] = 0
-    context["next"] = request.session["user_next"] if request.session["user_next"] is not None else "/"
+    context["error"] = 0
+    try:
+        next_s = request.session['next']
+    except:
+        next_s = "/"
+    context["next"] = next_s
+    context["uid"]= uid
+    context["user"]=ret.id
     response = JsonResponse(context)
-    redis_db.set(name, uid,ex=1*24*60*60)
+    redis_db.set(ret.id, uid,ex=1*24*60*60)
     response.set_cookie("uid", uid)
     response.set_cookie('user', ret.id)
     return response
@@ -102,7 +105,19 @@ def register(request):
 
 class SqlDB(View):
     def get(self, request):
-        return HttpResponse("get结果")
+        info = request.GET
+        tag = info.get("tag")
+        context = {}
+        if tag == 0 and re.match(r'\d{12}',info.get("name")):
+            try:
+                uinfo = UserInfo.objects.get(id=info.get("name"))
+            except:
+                context["error"] = 1
+            if uinfo.id == info.get("name"):
+                context["error"] = 0
+            else:
+                context["error"] = 1
+            return JsonResponse(context)
 
     def post(self, request):
         info = request.POST
@@ -120,6 +135,7 @@ class SqlDB(View):
             else:
                 context["err"] = 1
                 return JsonResponse(context)
+
 
     def delete(self, request):
         return HttpResponse("delete结果")
