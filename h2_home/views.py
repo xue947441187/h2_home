@@ -109,6 +109,7 @@ class SqlDB(View):
         tag = info.get("tag")
         context = {}
         if tag == 0 and re.match(r'\d{12}',info.get("name")):
+            '''查看用户名是否被注册'''
             try:
                 uinfo = UserInfo.objects.get(id=info.get("name"))
             except:

@@ -9,6 +9,31 @@
 
         ul {
             list-style: none;
+            text-align: center;
+
+        }
+
+        .tops li {
+            padding: 20px 40px 20px 40px;
+            margin-right: 5px;
+            margin-top: 10px;
+        }
+        span{
+            float:left;
+            color:red;
+
+        }
+        .details li {
+            padding: 10px 10px 10px 10px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            background-color:transparent;
+            font-size: 18px;
+            border:1px black solid;
+        }
+
+        .tops {
+            top: 0px;
         }
 
         .back {
@@ -22,13 +47,36 @@
 
 
 {% block bodys %}
-    <div class="col-md-2 left_l"></div>
-    <div class="col-md-10">
-        <ul>
-            {% for key,value in users.items %}
-                <li>{{ key }}:{{ value }}</li>
-            {% endfor %}
-
+    <div class="col-md-2 left_l">
+        <ul class="locat tops navbar-left">
+            <a href="#">
+                <li>基本信息</li>
+            </a>
+            <a href="#">
+                <li>详细信息</li>
+            </a>
+            <a href="#">
+                <li>对象信息</li>
+            </a>
+            <a href="#">
+                <li></li>
+            </a>
+        </ul>
+    </div>
+    <aside>
+    </aside>
+    <div class="col-md-10 tops">
+        <ul class="details">
+            <li class="col-md-10"><h2>个人信息</h2></li>
+            <li class="col-md-5"><span>姓名: </span>{{ users.name }}</li>
+            <li class="col-md-5"><span>年龄：</span>{{ users.age }}</li>
+            <li class="col-md-5"><span>性别：</span>{% if users.gender %}男{% else %}女{% endif %}</li>
+            <li class="col-md-5"><span>身高：</span>{{ users.height }}cm</li>
+            <li class="col-md-5"><span>邮箱：</span>{{ users.email }}</li>
+            <li class="col-md-5"><span>电话：</span>{{ users.phone }}</li>
+            <li class="col-md-5"><span>学号：</span>{{ users.id }}</li>
+            <li class="col-md-5"><span>QQ账号：</span>{{ users.qq }}</li>
+            <li class="col-md-5"><span>毕业院校：</span>郑州工程技术学院</li>
         </ul>
     </div>
 

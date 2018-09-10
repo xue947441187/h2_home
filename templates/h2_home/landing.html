@@ -1,5 +1,6 @@
 {% extends "bash.html" %}
 {% block heads %}
+    {% csrf_token %}
     <style>
         .form-xp {
             background-image: url("/static/images/background/back9.jpg");
@@ -41,8 +42,9 @@
     <script>
         function land() {
             var username = $("#useremail").val(),
-                userpassword = $("#userpassword").val();
-            $.post("/landing",{"username":username,"userpassword":userpassword},function (data) {
+                userpassword = $("#userpassword").val(),
+                csrf = $("[name='csrfmiddlewaretoken']").val();
+            $.post("/landing",{"username":username,"userpassword":userpassword,"csrfmiddlewaretoken":csrf},function (data) {
                 if ( data.error == 0 ) {
                     window.location.href = data.next;
                     alert($.cookie("user"))
