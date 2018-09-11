@@ -18,10 +18,10 @@
             margin-right: 5px;
             margin-top: 10px;
         }
-        span{
-            float:left;
-            color:red;
-
+        .details li span {
+            float: left;
+            color: red;
+            display: block;
         }
         .details li {
             padding: 10px 10px 10px 10px;
@@ -48,11 +48,11 @@
 
 {% block bodys %}
     <div class="col-md-2 left_l">
-        <ul class="locat tops navbar-left">
-            <a href="#">
+        <ul class="locat tops navbar-left hidden-sm	">
+            <a href="home">
                 <li>基本信息</li>
             </a>
-            <a href="#">
+            <a href="/storys">
                 <li>详细信息</li>
             </a>
             <a href="#">
@@ -65,8 +65,8 @@
     </div>
     <aside>
     </aside>
-    <div class="col-md-10 tops">
-        <ul class="details">
+    <div class="col-md-10 tops ">
+        <ul class="details ">
             <li class="col-md-10"><h2>个人信息</h2></li>
             <li class="col-md-5"><span>姓名: </span>{{ users.name }}</li>
             <li class="col-md-5"><span>年龄：</span>{{ users.age }}</li>

@@ -143,3 +143,11 @@ class SqlDB(View):
 
     def put(self, request):
         return HttpResponse("put结果")
+
+
+def story(request):
+    context = {
+        'title':"详情页面"
+    }
+
+    return render(request,"h2_home/storys.html",context)

@@ -7,5 +7,6 @@ urlpatterns = [
     path("home",views.home,name="home"),
     path("landing",views.landing,name="landing"),
     path("register",views.register,name="register"),
-    path("db",views.SqlDB.as_view(),name="db")
+    path("db",views.SqlDB.as_view(),name="db"),
+    path("storys",views.story)
 ]
