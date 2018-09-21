@@ -91,9 +91,20 @@ WSGI_APPLICATION = 'untitled.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    # 'default': {
+    #     'ENGINE': 'sqlserver',
+    #     'NAME': "home",
+    #     "HOST": 1433,
+    #     "USER": "admin",
+    #     "PASSWORD": "admin",
+    #     'OPTIONS': {
+    #         'DRIVER': 'SQL Server Native Client 10.0',
+    #         'MARS_Connection': True,
+    #     },
+    # }
 }
 
 # Password validation
@@ -134,4 +145,4 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
-SESSION_COOKIE_AGE=60*60*2
+SESSION_COOKIE_AGE = 60 * 60 * 2

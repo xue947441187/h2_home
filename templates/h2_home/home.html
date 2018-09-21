@@ -1,68 +1,10 @@
 {% extends "bash.html" %}
 {% block heads %}
-    <style>
-        .left_l {
-            border-right: 1px black solid;
-            padding-left: 0;
-            margin: 0;
-        }
 
-        ul {
-            list-style: none;
-            text-align: center;
-
-        }
-
-        .tops li {
-            padding: 20px 40px 20px 40px;
-            margin-right: 5px;
-            margin-top: 10px;
-        }
-        .details li span {
-            float: left;
-            color: red;
-            display: block;
-        }
-        .details li {
-            padding: 10px 10px 10px 10px;
-            margin-right: 5px;
-            margin-bottom: 10px;
-            background-color:transparent;
-            font-size: 18px;
-            border:1px black solid;
-        }
-
-        .tops {
-            top: 0px;
-        }
-
-        .back {
-            border-top: 0;
-            background: url("/static/images/background/{{ back }}");
-            background-size: auto;
-            height: 1000px;
-        }
-    </style>
 {% endblock %}
 
 
 {% block bodys %}
-    <div class="col-md-2 left_l">
-        <ul class="locat tops navbar-left hidden-sm	">
-            <a href="home">
-                <li>基本信息</li>
-            </a>
-            <a href="/storys">
-                <li>详细信息</li>
-            </a>
-            <a href="#">
-                <li>对象信息</li>
-            </a>
-            <a href="#">
-                <li></li>
-            </a>
-        </ul>
-    </div>
     <aside>
     </aside>
     <div class="col-md-10 tops ">
@@ -79,6 +21,4 @@
             <li class="col-md-5"><span>毕业院校：</span>郑州工程技术学院</li>
         </ul>
     </div>
-
-
 {% endblock %}

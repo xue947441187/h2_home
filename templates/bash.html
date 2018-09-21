@@ -6,6 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {#    {% csrf_token %}#}
     <title>{{ title }}</title>
+    <style>
+        .left_l {
+            border-right: 1px black solid;
+            padding-left: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+            text-align: center;
+
+        }
+
+        .tops li {
+            padding: 20px 40px 20px 40px;
+            margin-right: 5px;
+            margin-top: 10px;
+        }
+
+        .details li span {
+            float: left;
+            color: red;
+            display: block;
+        }
+
+        .details li {
+            padding: 10px 10px 10px 10px;
+            margin-right: 5px;
+            margin-bottom: 10px;
+            background-color: transparent;
+            font-size: 18px;
+            border: 1px black solid;
+        }
+
+        .tops {
+            top: 0px;
+        }
+
+        .back {
+            border-top: 0;
+            background: url("/static/images/background/{{ back }}");
+            background-size: auto;
+            height: 1000px;
+        }
+    </style>
     {% block heads %}{% endblock %}
     <link type="text/css" href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="/static/css/h2_home/bash.css">
@@ -24,6 +69,23 @@
     </ul>
 </div>
 
+<div class="col-md-2 left_l" id="top_left">
+    <ul class="locat tops navbar-left hidden-sm	">
+        <a href="home">
+            <li>基本信息</li>
+        </a>
+        <a href="/storys">
+            <li>详细信息</li>
+        </a>
+        <a href="#">
+            <li>对象信息</li>
+        </a>
+        <a href="#">
+            <li></li>
+        </a>
+    </ul>
+</div>
+
 <div class="back">
     {#    <button type="button" onclick="back()">按钮</button>#}
     {#    <p onclick="back()">切换背景</p>#}
@@ -33,6 +95,12 @@
 <script src="/static/js/jquery-3.3.1.js"></script>
 <script src="/static/js/bootstrap.min.js"></script>
 <script>
+    var home_re = /^.+?\/home$/;
+    var url = window.location.href;
+    if (!home_re.test(url)){
+        $("#top_left").css("display","none");
+    }
+
     function back() {
         var num = Math.ceil(Math.random() * 20);
         document.getElementById('body').style.background = 'url' + "(/static/images/background/back" + num + ".jpg)";
@@ -46,7 +114,6 @@
         font-weight: bold;
         font-size: 25px;
     }
-
 
     div ul li {
         background-color: #adadad;
