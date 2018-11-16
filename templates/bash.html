@@ -89,7 +89,7 @@
 <div class="back">
     {#    <button type="button" onclick="back()">按钮</button>#}
     {#    <p onclick="back()">切换背景</p>#}
-    {#    <audio src="/static/mp3/haikuotiankong.mp3" autoplay="autoplay" loop="loop" preload="auto">不支持播放器</audio>#}
+    <audio src="/static/mp3/haikuotiankong.mp3" autoplay="autoplay" loop="loop" preload="auto">不支持播放器</audio>
     {% block bodys %}{% endblock %}
 </div>
 <script src="/static/js/jquery-3.3.1.js"></script>
@@ -97,8 +97,8 @@
 <script>
     var home_re = /^.+?\/home$/;
     var url = window.location.href;
-    if (!home_re.test(url)){
-        $("#top_left").css("display","none");
+    if (!home_re.test(url)) {
+        $("#top_left").css("display", "none");
     }
 
     function back() {

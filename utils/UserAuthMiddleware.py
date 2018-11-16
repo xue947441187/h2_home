@@ -19,7 +19,7 @@ class AuthMiddleware(MiddlewareMixin):
             if not all([uid,uname]) and redis_db.get(uname) == uid:
             # 未使用redis记录
             # if not all([uid,uname]):
-                del request.session["next"]
+            #     del request.session["next"] if request.session["next"] is not None else request.
                 request.session["next"] = request.path if request.path is not None else "/"
                 request.session.set_expiry(60 * 60 * 2)
                 return HttpResponseRedirect("/landing",request)
